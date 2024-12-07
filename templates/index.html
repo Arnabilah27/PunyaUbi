@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Great Circle Distance Map</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #074d69;
+            /* Warna biru muda */
+            color: #000;
+            /* Warna teks tetap hitam untuk kontras */
+        }
+
+        h1 {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            justify-content: space-around;
+        }
+
+        form {
+            width: 25%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #FFFFFF;
+            /* Warna putih untuk form agar tetap jelas */
+            border-radius: 10px;
+            /* Membuat form memiliki sudut melengkung */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Memberikan efek bayangan pada form */
+        }
+
+        .form-group {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            width: 40%;
+            text-align: right;
+            margin-right: 10px;
+            line-height: 2;
+        }
+
+        .form-group input {
+            width: 60%;
+            padding: 5px;
+            box-sizing: border-box;
+            flex-direction: column;
+        }
+
+        .form-inline {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .form-inline input {
+            width: 48%;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        .form-result {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .form-result input {
+            width: 48%;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        form button {
+            margin-top: 10px;
+            margin-bottom: 0px;
+            background-color: #0E4976;
+            /* Warna tombol tetap biru gelap */
+            color: rgb(252, 252, 252);
+            border: none;
+            border-radius: 5px;
+            /* Membuat tombol memiliki sudut melengkung */
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #08446F;
+            /* Warna tombol saat hover */
+        }
+
+        .result {
+            margin-top: 10px;
+        }
+
+        .result input {
+            width: 48%;
+            padding: 5px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        .map-container {
+            width: 80%;
+            height: 500px;
+            box-sizing: border-box;
+            border: 2px solid #FFFFFF;
+            /* Memberikan border putih di sekitar peta */
+            border-radius: 10px;
+            /* Membuat sudut peta melengkung */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Great Circle Distance Map</h1>
+    <div class="content">
+        <div id="map" class="map-container">{{ map_html|safe }}</div>
+        <form method="post" action="/">
+            <div>
+                <h3>Input Nama Kota</h3>
+            </div>
+            <span>Lokasi 1</span>
+            <div class="form-group">
+                <input type="text" name="city1" placeholder="Nama Kota 1"
+                    value="{{ city1 if city1 is not none else '' }}" required>
+            </div>
+            <span>Lokasi 2</span>
+            <div class="form-group">
+                <input type="text" name="city2" placeholder="Nama Kota 2"
+                    value="{{ city2 if city2 is not none else '' }}" required>
+            </div>
+            <button type="submit">Search</button>
+            <div>
+                <h3>Hasil Perhitungan</h3>
+            </div>
+            <span>Koordinat Lokasi 1</span>
+            <div class="form-result">
+                <input type="text" value="{{ lat1 if lat1 is not none else '' }}" readonly>
+                <input type="text" value="{{ lon1 if lon1 is not none else '' }}" readonly>
+            </div>
+            <span>Koordinat Lokasi 2</span>
+            <div class="form-result">
+                <input type="text" value="{{ lat2 if lat2 is not none else '' }}" readonly>
+                <input type="text" value="{{ lon2 if lon2 is not none else '' }}" readonly>
+            </div>
+            <span>Jarak</span>
+            <div class="result">
+                <input type="text" value="{{ '%.2f' | format(distance) if distance is not none else '' }}" readonly>
+                <span>Km</span>
+            </div>
+            <button type="submit" name="reset" value="true">Reset</button>
+        </form>
+    </div>
+</body>
+
+</html>
